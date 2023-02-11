@@ -17,23 +17,14 @@ const reviews = require("./routes/reviews");
 const app = express();
 
 // connect to db
-//mongoose.connect("mongodb://localhost:27017/surf-shop");
 
-const { MongoClient, ServerApiVersion } = require("mongodb");
-const uri =
-  "mongodb+srv://rodrigovaldelomar:1986perras@appcluster.v8ys3py.mongodb.net/?retryWrites=true&w=majority";
-const client = new MongoClient(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverApi: ServerApiVersion.v1,
-});
-client.connect((err) => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
-});
-client.connect(uri)
+mongoose.connect("mongodb://localhost:27017/surf-shop");
 
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'conection error: '))
+db.once('open', () => {  
+  console.log('we are conected!')
+})
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
